@@ -169,6 +169,8 @@ ssh -L 8080:127.0.0.1:8000 enzo@10.10.11.68
 #### Crontab UI
 El servicio que corre en localhost:8000 es un Crontab UI desde donde se pueden ejecutar comandos one-liner como root.
 
+![Crontab UI](images/planning_crontab_ui.PNG)
+
 Maneras de convertirnos en root:
 
 ```bash
