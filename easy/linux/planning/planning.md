@@ -20,7 +20,7 @@ nmap -sS -p- --min-rate 5000 10.10.11.68 -oG allPortsPlanning
 nmap -sCV -p 22,80 -n -nP 10.10.11.68 -oA sondeoPlanning
 ```
 
-![/etc/hosts](images/planning_dns_local.PNG)
+![Ping](images/planning_ping_inicial.PNG)
 ![Nmap puertos](images/planning_allPorts.PNG)
 ![Nmap ervicios](images/planning_sondeo.PNG)
 
