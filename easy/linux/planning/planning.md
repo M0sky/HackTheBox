@@ -35,7 +35,7 @@ nano /etc/hosts
 
 ### Reconocimiento web
 
-#### Análisis con Whappalyzer
+#### Análisis con Wappalyzer
 Permite identificar las `tecnologías` que se utilizan en esta `web`.
 ![Wappalyzer](images/planning_wappalyzer.PNG)
 
