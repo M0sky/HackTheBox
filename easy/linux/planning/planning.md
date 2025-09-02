@@ -167,7 +167,7 @@ ssh -L 8080:127.0.0.1:8000 enzo@10.10.11.68
 ![Port Forwarding](images/planning_port_forwarding.PNG)
 
 #### Crontab UI
-El servicio que corre en localhost:8000 es un Crontab UI desde donde se puede ejecutar comandos como root.
+El servicio que corre en localhost:8000 es un Crontab UI desde donde se pueden ejecutar comandos one-liner como root.
 
 Maneras de convertirnos en root:
 
