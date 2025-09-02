@@ -21,8 +21,8 @@ nmap -sCV -p 22,80 -n -nP 10.10.11.68 -oA sondeoPlanning
 ```
 
 ![/etc/hosts](images/planning_dns_local.PNG)
-![/etc/hosts](images/planning_dns_local.PNG)
-![/etc/hosts](images/planning_dns_local.PNG)
+![Nmap puertos](images/planning_allPorts.PNG)
+![Nmap ervicios](images/planning_sondeo.PNG)
 
 #### Actualizar /etc/hosts (actúa como dns local)
 Asociamos el nombre del host (planning.htb) con su dirección IP (10.10.11.68).
