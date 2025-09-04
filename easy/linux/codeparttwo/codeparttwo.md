@@ -66,7 +66,7 @@ Además podemos ver el fichero `app.py` que en realidad es el código de la apli
 
 #### Inyectando cookies
 
-En este fichero se encuentra la `app.secret_key= 'S3cr3tK3yC0d3PartTw0'` que firma las cookies de sesión, por lo que intenté `inyectar la cookie del usuario admin` (suponiendo que existiera) para ver sus `code snippets`. Lo primero es decodificar mi cookie de sesión actual:
+En este fichero se encuentra la `app.secret_key = 'S3cr3tK3yC0d3PartTw0'` que firma las cookies de sesión, por lo que intenté `inyectar la cookie del usuario admin` (suponiendo que existiera) para ver sus `code snippets`. Lo primero es decodificar mi cookie de sesión actual:
 
 ```bash
 flask-unsign --secret 'S3cr3tK3yC0d3PartTw0' --unsign --cookie 'eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6Im14c2t5In0.aLmNrw.rA-ENeohmwVx9JYNgBc1l22iNvo'
