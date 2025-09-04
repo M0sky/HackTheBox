@@ -214,7 +214,7 @@ El usuario marco puede ejecutar un comando de `backup` como root `(ALL : ALL) NO
 
 ![npbackup-cli --help](images/codeparttwo_npbackup_help.PNG)
 
-Básicamente `carga un fichero de configuración` (marco tiene uno con permisos de lectura y escritura en su /home) y esta ejecuta lo que le pases por `parámetros`.
+Básicamente `carga un fichero de configuración` (marco tiene uno con permisos de lectura y escritura en su /home) y ejecuta lo que le pases por `parámetros`.
 
 ![npbackup.conf](images/codeparttwo_npbackup_conf_file.PNG)
 
