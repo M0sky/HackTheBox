@@ -13,7 +13,7 @@ Reconocimiento inicial con nmap.
 
 ```bash
 ping -c 4 10.10.11.82
-nmap -sS -p- --min-rate 5000 10.10.11.82 -oG allCodePartTwo
+nmap -sS -p- --min-rate 5000 10.10.11.82 -oG allPortsCodePartTwo
 nmap -sCV -p 22,80 -n -nP 10.10.11.82 -oA sondeoCodePartTwo
 ```
 
