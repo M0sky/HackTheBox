@@ -150,7 +150,7 @@ ssh oliver@10.10.11.68
 
 #### Escalada a root
 
-Al ver que oliver puede ejecutar `ndsudo` con permisos de root (binario con SUID).
+Se observa que oliver puede ejecutar `ndsudo` con permisos de root (binario con SUID).
 
 ![Binarios con SUID](images/editor_find_suid.PNG)
 
@@ -194,7 +194,7 @@ struct command {
 
 #### Creando el ejecutable nvme
 
-Con un simple programa en C podemos forzar a que use el user y group de root y lanzar lo que queramos.
+Con un simple programa en C podemos `forzar` a que use el `user (setuid) y group (setgid)` de `root` y lanzar lo que queramos.
 
 ```c
 #include <stdlib.h>
