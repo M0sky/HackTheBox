@@ -59,7 +59,7 @@ En el `_buildManifest.js` se observan 2 rutas interesantes; `/docs/content/getti
 ![Fichero _buildManifest.js](images/previous_web_manifest.PNG)
 ![Redirección a la página de login](images/previous_web_login.PNG)
 
-#### Burpsuite
+### Burpsuite
 
 #### CVE-2025-29927 Authorization Bypass in Next.js Middleware
 
