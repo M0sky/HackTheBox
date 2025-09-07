@@ -169,7 +169,7 @@ app/                                # App Router (Next 13+)
     └── cache/                      # Cache de build (Webpack/Turbopack)
 ```
 
-Tras revisar ficheros durante un rato llego al `/app/.next/routes-manifest.json`, encontrando la ruta de autenticación `/api/auth/[...nextauth]`. En Next.js `[...param]` define una `ruta catch-all` que `captura` todas las `subrutas` que empiecen con esa carpeta (como /api/auth/signin /api/auth/session). Además se encuentra bajo la ruta de `/app/.next/server/pages/api/auth/[...nextauth].js` (si no pongo la extensión no matchea con el fichero físico generado por Next.js al compilar).
+Tras revisar ficheros durante un rato llego al `/app/.next/routes-manifest.json`, encontrando la ruta de autenticación `/api/auth/[...nextauth]`. En Next.js `[...param]` define una `ruta catch-all` que `captura` todas las `subrutas` que empiecen con esa carpeta (como /api/auth/signin o /api/auth/session). Además se encuentra bajo la ruta de `/app/.next/server/pages/api/auth/[...nextauth].js` (si no pongo la extensión no matchea con el fichero físico generado por Next.js al compilar).
 
 ![Burp repeater /app/.next/routes-manifest.json](images/previous_burp_repeater_next_routes-manifest.PNG)
 ![Burp repeater /api/auth/[...nextauth].js](images/previous_burp_repeater_api_auth_bundle_compilado.PNG)
