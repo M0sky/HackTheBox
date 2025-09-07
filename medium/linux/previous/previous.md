@@ -251,7 +251,7 @@ int main () {
 }
 ```
 
-[!NOTE] El nombre del ejecutable debe ser exactamente `terraform-provider-examples`, pues es `examples` el `nombre del plugin` que se va a buscar desde el main.tf.
+> **Nota:** El nombre del ejecutable debe ser exactamente `terraform-provider-examples`, pues es `examples` el `nombre del plugin` que se va a buscar desde el main.tf.
 
 ```bash
 gcc binario.c -o terraform-provider-examples
