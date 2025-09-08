@@ -46,7 +46,7 @@ En la sección de contacto nos deja enviar un correo a jeremy@previous.htb, por 
 
 #### Enumeración de subdirectorios con Feroxbuster
 
-Enumerando me encuentro posibles rutas con 200, entre ellas `http://previous.htb/_next/static/qVDR2cKpRgqCslEh-llk9/_buildManifest.js`. Para verlas de una manera más agradable tiro de burp.
+Enumerando me encuentro posibles rutas con 200, entre ellas `http://previous.htb/_next/static/qVDR2cKpRgqCslEh-llk9/_buildManifest.js`.
 
 ```bash
 feroxbuster -u http://previous.htb/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 20
@@ -189,7 +189,7 @@ ssh jeremy@10.10.11.83
 
 #### Escalada a root
 
-El usuario marco puede ejecutar la herramienta `terraform` como root `(root) /usr/bin/terraform -chdir\=/opt/examples apply`.
+El usuario jeremy puede ejecutar la herramienta `terraform` como root `(root) /usr/bin/terraform -chdir\=/opt/examples apply`.
 
 La opción `-chdir=DIR` `cambia el directorio de trabajo` antes de ejecutar el subcomando `apply` que sirve para `crear o actualizar la infraestructura`.
 
